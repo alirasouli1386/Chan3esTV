@@ -1,0 +1,36 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on      : 7 Dec, 2016, 10:38:13 AM
+    Author          : srutikanta
+    Modified on     : 21 Dec, 2016 
+    Modified        : Arvind
+*/
+
+/*#backButton {
+     position:absolute;
+     left: 100px;
+     top: 70px;
+     display: none;
+     z-index: 1; 
+}
+*/ 
+.backButton { 
+     position:absolute;
+     left:5%;
+     top :10%;
+     /*//width:40;
+     //height:40;*/
+     /*display: none;*/
+     z-index: 1; 
+     cursor:pointer;
+     width: 45px;
+     text-align: center;
+     line-height: 1.42;
+}
+.backButton:hover {
+    display: block !important;
+}

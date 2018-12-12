@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta name="language" content="en" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">  
+        <title></title>
+        <meta name="description" content="" />        
+        <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700,700italic,300italic,300,600italic,600,400italic,800,800italic' rel='stylesheet' type="text/css" /> 
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>  
+		
+        <script>
+            var user_id="191466";
+            var STORE_AUTH_TOKEN="fe524e2950f86f97f92f72e7054b8808";  
+            var HTTP_ROOT = "http://chan3es.tv";
+            var notification = 0;
+			var favicon = "https://daa22u2vultp.cloudfront.net/public/chan3es/favicon/logo2_1520964388.png";
+            var enable_user_notification = "1";
+            var Player_Page = "player";
+		</script>
+		
+		<script src="js/notification.js"></script>
+		<script>
+			if (!window.jQuery) {
+                document.write('<script src="js/jquery-2.1.3.min.js"><\/script>');
+			}
+		</script>
+		
+        <script type='text/javascript'>
+			// video js error message
+            var you_aborted_the_media_playback ="You aborted the media playback";
+            var a_network_error_caused_the ="A network error caused the media download to fail part-way.";
+            var the_media_playback_was_aborted ="The media playback was aborted due to a corruption problem or because the media used features your browser did not support.";
+            var the_media_could_not_be_loaded ="The media could not be loaded, either because the server or network failed or because the format is not supported.";
+            var the_media_is_encrypted ="The media is encrypted and we do not have the keys to decrypt it.";
+            var no_compatible_source_was_found ="No compatible source was found for this media.";
+			var totalBandwidth = 0;
+            var stream_id = "161776";
+            var feed_method = "push";
+            var studio_id = '10488';
+		</script>
+		
+		<!--Start bootstrap-->
+        <script type="text/javascript" src="js/bootstrap.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css"/> 
+		
+        <link rel="stylesheet" href="css/video-js.min.css">
+        <script src="js/video.min.js"></script>
+		
+		<script src="js/videojs-contrib-hls5.js"></script>
+        <style type="text/css">
+            /* .video-js {height: 50%; padding-top: 48%; width: 100%;}*/
+            .vjs-fullscreen {padding-top: 0px}  
+            .RDVideoHelper{display: none;}       
+            video::-webkit-media-controls{display:none!important}
+            video::-webkit-media-controls-panel{display:none!important} 
+            body {
+			background-color: #1E1E1E;;
+			color: #fff;
+			font: 12px Roboto,Arial,sans-serif;
+			height: 100%;
+			margin: 0;
+			overflow: hidden;
+			padding: 0;
+			position: absolute;
+			width: 100%;
+            }
+            html {
+			overflow: hidden;
+            }
+            .video-js .vjs-control {
+			float:left;
+            }
+            .video-js .vjs-control.vjs-fullscreen-control{
+			float:right;
+            }    
+            .vjs-big-play-button{display: block !important;visibility: hidden;};
+		</style>
+        <script type="text/javascript" src="js/backbutton.js"></script>
+        <link rel="stylesheet" type="text/css" href="css/backbutton.css" />
+	</head>
+    <body>
+        <input type="hidden" id="backbtnlink" value="http://chan3es.tv" />
+		<div id="videoDivContent">
+            <div class="videocontent">
+                <div class="playercontent" id="stream_player_1" style="position: relative;">
+                    <video data-title="Live stream" id="stream_player" class="video-js vjs-default-skin vjs-big-play-centered vjs-16-9" controls preload="auto" crossorigin="anonymous">
+                        <source src="https://d2vo3ozpc06skj.cloudfront.net/chan3estv10-1525963098/index.m3u8" type="application/x-mpegURL"  data-title="Live stream"/>
+					</video>
+					<!--<div class="player-text-div" style="color: #fff;position: absolute;"></div>-->
+				</div>
+			</div>
+		</div>
+	</body>
+    <script type="text/javascript">
+		var is_mobile = "";
+		var videoOnPause = 0;
+		var videoSource = '';
+		var is_mobile = 0;
+		var player = videojs('stream_player');
+		player.ready(function () {
+			//                    
+			//                    if (is_mobile !== 0){ 
+			//                        player.play();
+			//                    }
+			player = this;
+			if (is_mobile !== 0) {
+				$(".vjs-big-play-button").show();
+				player.pause();
+				} else {
+				$(".vjs-big-play-button").hide();
+			}
+			player.play();
+			$(".vjs-control-bar").show();
+			$('#stream_player').bind('contextmenu', function () {
+				return false;
+			});
+			$(".vjs-fullscreen-control").click(function () {
+				$(this).blur();
+			});
+			player.on("loadstart", function () {
+				if (is_mobile !== 0) {
+					$(".vjs-big-play-button").on("touchstart", function () {
+						player.play();
+						$(".vjs-big-play-button").hide();
+						$('.vjs-loading-spinner').show();
+					});
+				}
+			});
+			player.on("play", function () {
+				if (is_mobile !== 0) {
+					$(".vjs-control-bar").show();
+					$(".vjs-big-play-button").hide();
+					$('.vjs-loading-spinner').hide();
+				}
+				videoOnPause = 0;
+			});
+			player.on("pause", function () {
+				videoOnPause = 1;
+			});
+			
+			if ($(document).height() != null) {
+				var thisIframesHeight = $(window).height();//$(document).height();                           
+				$(".video-js").attr('style', 'padding-top:' + thisIframesHeight + 'px');
+				} else {
+				$(".video-js").attr('style', 'padding-top:47%; height:50%;');
+			}
+			$(window).resize(function () {
+				var thisIframesHeight = $(window).height();
+				$(".video-js").attr('style', 'padding-top:' + thisIframesHeight + 'px;width:100%;');
+			});
+			player.on('error', function () {
+				var errordetails = this.player().error()
+				if(errordetails.code !='' && videoSource == ''){
+					$(".vjs-modal-dialog-content").html("<div>Live stream has been disconnected</div>");
+					}else if($('.vjs-modal-dialog-content').html()!==''){
+					$(".vjs-modal-dialog-content").html("<div>"+no_compatible_source_was_found+"</div>");
+					} else {
+					if(document.getElementsByTagName("video")[0].error != null){
+						var videoErrorCode = document.getElementsByTagName("video")[0].error.code;
+						if (videoErrorCode === 2) {
+							$(".vjs-error-display").html("<div>"+a_network_error_caused_the+"</div>");
+                            } else if (videoErrorCode === 3) {
+							$(".vjs-error-display").html("<div>"+the_media_playback_was_aborted+"</div>");
+                            } else if (videoErrorCode === 1) {
+							$(".vjs-error-display").html("<div>"+you_aborted_the_media_playback+"</div>");
+                            } else if (videoErrorCode === 4) {
+							$(".vjs-error-display").html("<div>"+the_media_could_not_be_loaded+"</div>");
+                            } else if (videoErrorCode === 5) {
+							$(".vjs-error-display").html("<div>"+the_media_is_encrypted+"</div>");
+						}
+					}
+				}
+			});
+			checkLiveStreamOffline();
+			setInterval(function(){
+				checkLiveStreamOffline();
+			}, 10000);
+		});
+		
+        function checkLiveStreamOffline(){
+			var checkStreamurl = 'https://d2vo3ozpc06skj.cloudfront.net/chan3estv10-1525963098/index.m3u8';
+			$.ajax({
+				type: 'HEAD',
+				url: 'https://livestream.muvi.com/live/chan3estv10-1525963098/index.m3u8',
+				success: function(){
+					if ($('#checkLiveStream').length){
+						$('#checkLiveStream').remove();
+						if(videoOnPause){
+							player.src(checkStreamurl);
+							player.pause();
+                            } else{
+							player.src(checkStreamurl).play();
+						}
+					}
+					videoSource = checkStreamurl;
+				},
+				error: function() {
+					if (!$('#checkLiveStream').length){
+						$("#stream_player").append("<span id='checkLiveStream'><img src='/img/streamoffline.png' width='20' height='20' title='stream offline'/>&nbsp;&nbsp;Live stream offline</span>");
+						player.src("");
+					}
+					videoSource = "";
+				}
+			});
+		}
+	</script>
+	<!--<script src="http://chan3es.tv/js/livestreamBuffer-log.js"></script>-->
+    
+    <script>
+        $(document).ready(function () {
+            setInterval(function() {
+                $.ajax({
+                    type: 'POST',
+                    url: '/user/canlogin',
+                    success: function(res) {
+                        if(res != 1)
+						window.location.href ="/user/logout" ;
+					}
+				});             
+			}, 30000);
+            setInterval(function(){
+                $.ajax({
+                    url: '/site/updateLoginHistory/',
+                    type: "POST",
+                    data: {login_count:'login_count'},          
+                    success: function (data) {
+                        console.log(data);
+					}
+				}); 
+			}, 300000);
+		});
+	</script>
+	<link href="css/videojs.watermark.css?v=92" rel="stylesheet" type="text/css" />    
+	<script data-cfasync="false" type="text/javascript" src="js/videojs.watermark.js?v=92"></script> 
+</html>
